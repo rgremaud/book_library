@@ -1,0 +1,14 @@
+body {
+    display: grid;
+    grid-template-rows: 5vh 90vh;
+}
+
+.header {
+    background-color: white;
+    grid-row: 1 / 2;
+}
+
+.container {
+    background-color: grey;
+    grid-row: 2 / 3;
+}
