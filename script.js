@@ -26,19 +26,6 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(book);
 }
 
-/*
-function printLibrary() {
-  let list = document.getElementById("myList");
-  for (i = 0; i < myLibrary.length; i++) {
-    let li = document.createElement('li');
-    li.innerText = myLibrary[i].title;
-    list.appendChild(li);
-  }
-}
-
-document.getElementById('addBook').addEventListener('click', addBookToLibrary);
-*/
-
 const showButton = document.getElementById("showDialog");
 const bookForm = document.getElementById("bookForm");
 const outputBox = document.querySelector("output");
@@ -55,6 +42,6 @@ submitBtn.addEventListener("click", (event) => {
   const pages = document.getElementById('pages').value;
   const read = document.getElementById('read').value;
   addBookToLibrary(title, author, pages, read);
-  bookForm.close
+  bookForm.close();
 }
 )
