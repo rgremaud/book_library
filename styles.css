@@ -6,9 +6,11 @@ body {
 .header {
     background-color: white;
     grid-row: 1 / 2;
+    width: 100%;
 }
 
 .container {
     background-color: grey;
     grid-row: 2 / 3;
+    width: 100%;
 }
