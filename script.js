@@ -65,7 +65,7 @@ function createTable() {
   table.id = "bookTable"
   table.setAttribute('border', '1');
 
-  const headerRow = document.createElement('tr');
+  const headerRow = document.createElement('thead');
   Object.keys(myLibrary[0]).forEach(key => {
     if (key == "id") {
       // do nothing
@@ -78,6 +78,8 @@ function createTable() {
   });
   table.appendChild(headerRow);
 
+  const tableBody = document.createElement('tbody');
+  tableBody.id = "tableBody";
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
@@ -90,18 +92,16 @@ function createTable() {
         row.appendChild(td);
       }
       });
-      table.appendChild(row);
+      tableBody.appendChild(row);
+      table.appendChild(tableBody);
     });
 
   document.body.appendChild(table);
 }
 
 function tableRefresh() {
-  // add an option to refresh the data on the table 
-  // set the existing data on the table to empty
-  // re-populate the table data
-  $("#bookTable tr>td").remove(); 
-  // can use .innerHTML = ""; if you nest the th in a thead and remaining rows in a tr
+  const newTableBody = document.createElement('tbody');
+  tableBody.parentNode.replaceChild(newTableBody, tableBody);
 }
 
 // set initial books for table
