@@ -7,8 +7,10 @@ General flow:
 
 */
 
+// initial library value
 const myLibrary = [];
 
+// object constructor 
 function Book(title, author, pages, read) {
   if (!new.target) {
     throw Error("You must use the 'new' operator to call the constructor");
@@ -26,6 +28,7 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(book);
 }
 
+// book form functions
 const showButton = document.getElementById("showDialog");
 const bookForm = document.getElementById("bookForm");
 const outputBox = document.querySelector("output");
@@ -42,12 +45,24 @@ submitBtn.addEventListener("click", (event) => {
   const pages = document.getElementById('pages').value;
   const read = document.getElementById('read').value;
   addBookToLibrary(title, author, pages, read);
+  // re-factor to move this to a seperate function
+  formClear();
   bookForm.close();
 });
+
+function formClear() {
+  document.getElementById('title').value = "";
+  document.getElementById('author').value = "";
+  document.getElementById('pages').value = "";
+  document.getElementById('read').value = "";
+}
+
+// table creation
 
 
 function createTable() {
   const table = document.createElement('table');
+  table.id = "bookTable"
   table.setAttribute('border', '1');
 
   const headerRow = document.createElement('tr');
@@ -81,9 +96,16 @@ function createTable() {
   document.body.appendChild(table);
 }
 
+function tableRefresh() {
+  // add an option to refresh the data on the table 
+  // set the existing data on the table to empty
+  // re-populate the table data
+  $("#bookTable tr>td").remove(); 
+  // can use .innerHTML = ""; if you nest the th in a thead and remaining rows in a tr
+}
+
 // set initial books for table
 addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
 addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
 createTable();
 
-// add an option to refresh the data on the table
