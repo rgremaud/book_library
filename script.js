@@ -43,5 +43,47 @@ submitBtn.addEventListener("click", (event) => {
   const read = document.getElementById('read').value;
   addBookToLibrary(title, author, pages, read);
   bookForm.close();
+});
+
+
+function createTable() {
+  const table = document.createElement('table');
+  table.setAttribute('border', '1');
+
+  const headerRow = document.createElement('tr');
+  Object.keys(myLibrary[0]).forEach(key => {
+    if (key == "id") {
+      // do nothing
+    }
+    else {
+      const th = document.createElement('th');
+      th.appendChild(document.createTextNode(key));
+      headerRow.appendChild(th);
+    }
+  });
+  table.appendChild(headerRow);
+
+  myLibrary.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(value => {
+      if (value == "id") {
+        // do nothing
+      }
+      else { 
+        const td = document.createElement('td');
+        td.appendChild(document.createTextNode(value));
+        row.appendChild(td);
+      }
+      });
+      table.appendChild(row);
+    });
+
+  document.body.appendChild(table);
 }
-)
+
+// set initial books for table
+addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
+addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
+createTable();
+
+// add an option to refresh the data on the table
