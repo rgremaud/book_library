@@ -80,6 +80,7 @@ function createTable() {
 
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
+
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
@@ -100,8 +101,29 @@ function createTable() {
 }
 
 function tableRefresh() {
+  // clear the table
   const newTableBody = document.createElement('tbody');
+  newTableBody.id = "tableBody";
   tableBody.parentNode.replaceChild(newTableBody, tableBody);
+
+
+  // pull in new data
+  
+  myLibrary.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(value => {
+      if (value == "id") {
+        // do nothing
+      }
+      else { 
+        const td = document.createElement('td');
+        td.appendChild(document.createTextNode(value));
+        row.appendChild(td);
+      }
+      });
+      newTableBody.appendChild(row);
+    });
+
 }
 
 // set initial books for table
