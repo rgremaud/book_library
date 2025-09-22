@@ -45,7 +45,6 @@ submitBtn.addEventListener("click", (event) => {
   const pages = document.getElementById('pages').value;
   const read = document.getElementById('read').value;
   addBookToLibrary(title, author, pages, read);
-  // re-factor to move this to a seperate function
   formClear();
   bookForm.close();
 });
@@ -78,24 +77,29 @@ function createTable() {
   });
   table.appendChild(headerRow);
 
+  // experimental formula to check for ID
+  function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
+
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
-      if (value == "id") {
+      if (getKeyByValue(item, value) == 'id') {
         // do nothing
       }
-      else { 
+      else {
         const td = document.createElement('td');
         td.appendChild(document.createTextNode(value));
         row.appendChild(td);
       }
-      });
-      tableBody.appendChild(row);
-      table.appendChild(tableBody);
     });
+    tableBody.appendChild(row);
+    table.appendChild(tableBody);
+  });
 
   document.body.appendChild(table);
 }
@@ -106,24 +110,22 @@ function tableRefresh() {
   newTableBody.id = "tableBody";
   tableBody.parentNode.replaceChild(newTableBody, tableBody);
 
-
   // pull in new data
-  
+
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (value == "id") {
         // do nothing
       }
-      else { 
+      else {
         const td = document.createElement('td');
         td.appendChild(document.createTextNode(value));
         row.appendChild(td);
       }
-      });
-      newTableBody.appendChild(row);
     });
-
+    newTableBody.appendChild(row);
+  });
 }
 
 // set initial books for table
