@@ -11,16 +11,16 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.id = crypto.randomUUID();
-/*
-  this.updateReadStatus = function(status) {
-    if (status == "yes" || status === "on") {
-      this.read = "Yes";
-    }
-    else {
-      this.read = "No";
-    }
-  }; */
 }
+
+Book.prototype.updateReadStatus = function () {
+  if (this.read == "on") {
+    this.read = "Yes";
+  }
+  else {
+    this.read = "No";
+  }
+};
 
 
 function addBookToLibrary(title, author, pages, read) {
@@ -60,9 +60,9 @@ function formClear() {
 // table creation
 
 // function to check for ID
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
-  }
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
 
 function createTable() {
   // create table
@@ -97,6 +97,7 @@ function createTable() {
       if (getKeyByValue(item, value) == 'id') {
         const button = document.createElement('button');
         button.appendChild(document.createTextNode('Remove'));
+        button.dataset.bookId = value;
         row.appendChild(button);
       }
       else if (getKeyByValue(item, value) == 'read') {
@@ -130,6 +131,11 @@ function tableRefresh() {
       if (getKeyByValue(item, value) == 'id') {
         const button = document.createElement('button');
         button.appendChild(document.createTextNode('Remove'));
+        row.appendChild(button);
+      }
+      else if (getKeyByValue(item, value) == 'read') {
+        const button = document.createElement('button');
+        button.appendChild(document.createTextNode(`${value}`));
         row.appendChild(button);
       }
       else {
