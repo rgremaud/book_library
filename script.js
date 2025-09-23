@@ -1,12 +1,3 @@
-/*
-General flow:
-  button with event listener - click and prompt the user to enter a book with a form.
-    form has the following fields: title, author, pages, read
-  submitting the form then calls addBookToLibrary with the fields populated
-  table included that refreshes to display all books in myLibrary
-
-*/
-
 // initial library value
 const myLibrary = [];
 
@@ -46,6 +37,7 @@ submitBtn.addEventListener("click", (event) => {
   const read = document.getElementById('read').value;
   addBookToLibrary(title, author, pages, read);
   formClear();
+  tableRefresh();
   bookForm.close();
 });
 
@@ -58,16 +50,24 @@ function formClear() {
 
 // table creation
 
+// function to check for ID
+  function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
 
 function createTable() {
+  // create table
   const table = document.createElement('table');
   table.id = "bookTable"
   table.setAttribute('border', '1');
 
+  // create header row
   const headerRow = document.createElement('thead');
   Object.keys(myLibrary[0]).forEach(key => {
     if (key == "id") {
-      // do nothing
+      const th = document.createElement('th');
+      th.appendChild(document.createTextNode("Remove"))
+      headerRow.appendChild(th);
     }
     else {
       const th = document.createElement('th');
@@ -77,19 +77,18 @@ function createTable() {
   });
   table.appendChild(headerRow);
 
-  // experimental formula to check for ID
-  function getKeyByValue(object, value) {
-    return Object.keys(object).find(key => object[key] === value);
-  }
-
+  // create table body
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
+  // create table data
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
-        // do nothing
+        const button = document.createElement('button');
+        button.appendChild(document.createTextNode('Remove'));
+        row.appendChild(button);
       }
       else {
         const td = document.createElement('td');
@@ -111,12 +110,13 @@ function tableRefresh() {
   tableBody.parentNode.replaceChild(newTableBody, tableBody);
 
   // pull in new data
-
   myLibrary.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
-      if (value == "id") {
-        // do nothing
+      if (getKeyByValue(item, value) == 'id') {
+        const button = document.createElement('button');
+        button.appendChild(document.createTextNode('Remove'));
+        row.appendChild(button);
       }
       else {
         const td = document.createElement('td');
