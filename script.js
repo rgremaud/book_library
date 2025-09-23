@@ -11,6 +11,15 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.id = crypto.randomUUID();
+/*
+  this.updateReadStatus = function(status) {
+    if (status == "yes" || status === "on") {
+      this.read = "Yes";
+    }
+    else {
+      this.read = "No";
+    }
+  }; */
 }
 
 
@@ -46,7 +55,7 @@ function formClear() {
   document.getElementById('author').value = "";
   document.getElementById('pages').value = "";
   document.getElementById('read').value = "";
-}
+};
 
 // table creation
 
@@ -88,6 +97,11 @@ function createTable() {
       if (getKeyByValue(item, value) == 'id') {
         const button = document.createElement('button');
         button.appendChild(document.createTextNode('Remove'));
+        row.appendChild(button);
+      }
+      else if (getKeyByValue(item, value) == 'read') {
+        const button = document.createElement('button');
+        button.appendChild(document.createTextNode(`${value}`));
         row.appendChild(button);
       }
       else {
