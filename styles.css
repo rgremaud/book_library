@@ -1,4 +1,4 @@
-/* body {
+body {
     display: grid;
     grid-template-rows: 5vh 90vh;
 }
@@ -13,4 +13,17 @@
     background-color: grey;
     grid-row: 2 / 3;
     width: 100%;
+}
+
+table {
+    table-layout: fixed;
+    width: 75%; /* Or a specific width */
+}
+th, td {
+    width: 25%; /* Example: For 5 equal columns */
+            /* Or set individual column widths */
+}
+
+table > button {
+    width: 25%;
 }

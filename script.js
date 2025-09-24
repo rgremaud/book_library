@@ -154,7 +154,8 @@ function createTable() {
   // create table data
   createTableBody(table);
 
-  document.body.appendChild(table);
+  const container = document.getElementById('container')
+  container.appendChild(table);
 }
 
 function tableClear() {
