@@ -65,7 +65,7 @@ function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
 
-function createHeaderRow(table) { 
+function createHeaderRow(table) {
   const headerRow = document.createElement('thead');
   Object.keys(myLibrary[0]).forEach(key => {
     if (key == "id") {
@@ -101,15 +101,15 @@ function createTableBody(table) {
         index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-            index = myLibrary.indexOf(item);
-            if (value == "No" && index == myLibrary.indexOf(item)) {
-              myLibrary[index].read = "Yes";
-              tableRefresh();
-            }
-            else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-              myLibrary[index].read = "No";
-              tableRefresh();
-            }
+          index = myLibrary.indexOf(item);
+          if (value == "No" && index == myLibrary.indexOf(item)) {
+            myLibrary[index].read = "Yes";
+            tableRefresh();
+          }
+          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
+            myLibrary[index].read = "No";
+            tableRefresh();
+          }
         });
         row.appendChild(button);
       }
@@ -126,23 +126,23 @@ function createTableBody(table) {
 
 function removeButton(button, value) {
   button.appendChild(document.createTextNode('Remove'));
-        button.dataset.bookId = value;
-        button.addEventListener("click", () => {
-          myLibrary.forEach(item => {
-            if (item.id == button.dataset.bookId) {
-              index = myLibrary.indexOf(item);
-              myLibrary.splice(index, 1);
-              tableRefresh();
-            }
-          })
-        });
+  button.dataset.bookId = value;
+  button.addEventListener("click", () => {
+    myLibrary.forEach(item => {
+      if (item.id == button.dataset.bookId) {
+        index = myLibrary.indexOf(item);
+        myLibrary.splice(index, 1);
+        tableRefresh();
+      }
+    })
+  });
 };
 
 function createTable() {
   // create table
   const table = document.createElement('table');
   table.id = "bookTable"
-  table.setAttribute('border', '1');
+  //table.setAttribute('border', '1');
 
   // create header row
   createHeaderRow(table);
@@ -184,15 +184,15 @@ function tableRefresh() {
         index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-            index = myLibrary.indexOf(item);
-            if (value == "No" && index == myLibrary.indexOf(item)) {
-              myLibrary[index].read = "Yes";
-              tableRefresh();
-            }
-            else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-              myLibrary[index].read = "No";
-              tableRefresh();
-            }
+          index = myLibrary.indexOf(item);
+          if (value == "No" && index == myLibrary.indexOf(item)) {
+            myLibrary[index].read = "Yes";
+            tableRefresh();
+          }
+          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
+            myLibrary[index].read = "No";
+            tableRefresh();
+          }
         });
         row.appendChild(button);
       }
