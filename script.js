@@ -101,7 +101,6 @@ function createTableBody(table) {
         index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          myLibrary.forEach(item => {
             index = myLibrary.indexOf(item);
             if (value == "No" && index == myLibrary.indexOf(item)) {
               myLibrary[index].read = "Yes";
@@ -111,7 +110,6 @@ function createTableBody(table) {
               myLibrary[index].read = "No";
               tableRefresh();
             }
-          })
         });
         row.appendChild(button);
       }
@@ -185,7 +183,6 @@ function tableRefresh() {
         index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          myLibrary.forEach(item => {
             index = myLibrary.indexOf(item);
             if (value == "No" && index == myLibrary.indexOf(item)) {
               myLibrary[index].read = "Yes";
@@ -195,7 +192,6 @@ function tableRefresh() {
               myLibrary[index].read = "No";
               tableRefresh();
             }
-          })
         });
         row.appendChild(button);
       }
