@@ -14,7 +14,7 @@ function Book(title, author, pages, read) {
 }
 
 Book.prototype.updateReadStatus = function () {
-  if (this.read == "on") {
+  if (this.read == "on" || this.read == "yes" || this.read == "Yes") {
     this.read = "Yes";
   }
   else {
@@ -25,6 +25,7 @@ Book.prototype.updateReadStatus = function () {
 
 function addBookToLibrary(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
+  book.updateReadStatus();
   myLibrary.push(book);
 }
 
@@ -54,23 +55,17 @@ function formClear() {
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
   document.getElementById('pages').value = "";
-  document.getElementById('read').value = "";
+  document.getElementById('read').checked = false;
 };
 
-// table creation
+// table creation functions
 
 // function to check for ID
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
 
-function createTable() {
-  // create table
-  const table = document.createElement('table');
-  table.id = "bookTable"
-  table.setAttribute('border', '1');
-
-  // create header row
+function createHeaderRow(table) { 
   const headerRow = document.createElement('thead');
   Object.keys(myLibrary[0]).forEach(key => {
     if (key == "id") {
@@ -86,7 +81,9 @@ function createTable() {
   });
   table.appendChild(headerRow);
 
-  // create table body
+};
+
+function createTableBody(table) {
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
@@ -96,13 +93,26 @@ function createTable() {
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
         const button = document.createElement('button');
-        button.appendChild(document.createTextNode('Remove'));
-        button.dataset.bookId = value;
+        removeButton(button, value);
         row.appendChild(button);
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
+        index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
+        button.addEventListener("click", () => {
+          myLibrary.forEach(item => {
+            index = myLibrary.indexOf(item);
+            if (value == "No" && index == myLibrary.indexOf(item)) {
+              myLibrary[index].read = "Yes";
+              tableRefresh();
+            }
+            else if (value == "Yes" && index == myLibrary.indexOf(item)) {
+              myLibrary[index].read = "No";
+              tableRefresh();
+            }
+          })
+        });
         row.appendChild(button);
       }
       else {
@@ -114,8 +124,45 @@ function createTable() {
     tableBody.appendChild(row);
     table.appendChild(tableBody);
   });
+}
+
+function removeButton(button, value) {
+  button.appendChild(document.createTextNode('Remove'));
+        button.dataset.bookId = value;
+        button.addEventListener("click", () => {
+          myLibrary.forEach(item => {
+            if (item.id == button.dataset.bookId) {
+              index = myLibrary.indexOf(item);
+              myLibrary.splice(index, 1);
+              tableRefresh();
+            }
+          })
+        });
+};
+
+function createTable() {
+  // create table
+  const table = document.createElement('table');
+  table.id = "bookTable"
+  table.setAttribute('border', '1');
+
+  // create header row
+  createHeaderRow(table);
+
+  // create table body
+  const tableBody = document.createElement('tbody');
+  tableBody.id = "tableBody";
+
+  // create table data
+  createTableBody(table);
 
   document.body.appendChild(table);
+}
+
+function tableClear() {
+  const newTableBody = document.createElement('tbody');
+  newTableBody.id = "tableBody";
+  tableBody.parentNode.replaceChild(newTableBody, tableBody);
 }
 
 function tableRefresh() {
@@ -130,12 +177,26 @@ function tableRefresh() {
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
         const button = document.createElement('button');
-        button.appendChild(document.createTextNode('Remove'));
+        removeButton(button, value);
         row.appendChild(button);
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
+        index = myLibrary.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
+        button.addEventListener("click", () => {
+          myLibrary.forEach(item => {
+            index = myLibrary.indexOf(item);
+            if (value == "No" && index == myLibrary.indexOf(item)) {
+              myLibrary[index].read = "Yes";
+              tableRefresh();
+            }
+            else if (value == "Yes" && index == myLibrary.indexOf(item)) {
+              myLibrary[index].read = "No";
+              tableRefresh();
+            }
+          })
+        });
         row.appendChild(button);
       }
       else {
