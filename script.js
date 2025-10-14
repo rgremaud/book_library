@@ -1,6 +1,45 @@
-// initial library value
-const myLibrary = [];
+// initial library values
+// const myLibrary = [];
 
+class Library {
+  constructor() {
+  this.books = [];
+  }
+
+  addBook(book) {
+    this.books.push(book)
+  }
+
+  printLibrary() {
+    console.log(this.books);
+  }
+
+  createBook(title, author, pages, read) {
+    book = new Book(title, author, pages, read)
+  }
+  // removeBook
+}
+
+class Book {
+  constructor(title, author, pages, read=false) {
+  this.title = title;
+  this.author = author;
+  this.pages = pages;
+  this.read = read;
+  this.id = crypto.randomUUID();}
+
+  updateReadStatus() {
+  if (this.read === false) {
+    this.read = true;
+  }
+  else {
+    this.read = false
+  }
+};
+}
+
+
+/*
 // object constructor 
 function Book(title, author, pages, read) {
   if (!new.target) {
@@ -57,7 +96,9 @@ function formClear() {
   document.getElementById('pages').value = "";
   document.getElementById('read').checked = false;
 };
+*/
 
+/*
 // table creation functions
 
 // function to check for ID
@@ -206,8 +247,10 @@ function tableRefresh() {
   });
 }
 
+
 // set initial books for table
 addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
 addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
 createTable();
 
+*/
