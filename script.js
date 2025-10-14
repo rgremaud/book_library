@@ -38,7 +38,6 @@ class Book {
 };
 }
 
-
 /*
 // object constructor 
 function Book(title, author, pages, read) {
@@ -98,7 +97,7 @@ function formClear() {
 };
 */
 
-/*
+
 // table creation functions
 
 // function to check for ID
@@ -108,7 +107,7 @@ function getKeyByValue(object, value) {
 
 function createHeaderRow(table) {
   const headerRow = document.createElement('thead');
-  Object.keys(myLibrary[0]).forEach(key => {
+  Object.keys(myLibrary.books[0]).forEach(key => {
     if (key == "id") {
       const th = document.createElement('th');
       th.appendChild(document.createTextNode("Remove"))
@@ -129,7 +128,7 @@ function createTableBody(table) {
   tableBody.id = "tableBody";
 
   // create table data
-  myLibrary.forEach(item => {
+  myLibrary.books.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
@@ -139,16 +138,16 @@ function createTableBody(table) {
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
-        index = myLibrary.indexOf(item);
+        index = myLibrary.books.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          index = myLibrary.indexOf(item);
-          if (value == "No" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "Yes";
+          index = myLibrary.books.indexOf(item);
+          if (value === false && index == myLibrary.books.indexOf(item)) {
+            myLibrary[index].read = true;
             tableRefresh();
           }
-          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "No";
+          else if (value === true && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = false;
             tableRefresh();
           }
         });
@@ -169,10 +168,10 @@ function removeButton(button, value) {
   button.appendChild(document.createTextNode('Remove'));
   button.dataset.bookId = value;
   button.addEventListener("click", () => {
-    myLibrary.forEach(item => {
+    myLibrary.books.forEach(item => {
       if (item.id == button.dataset.bookId) {
-        index = myLibrary.indexOf(item);
-        myLibrary.splice(index, 1);
+        index = myLibrary.books.indexOf(item);
+        myLibrary.books.splice(index, 1);
         tableRefresh();
       }
     })
@@ -212,7 +211,7 @@ function tableRefresh() {
   tableBody.parentNode.replaceChild(newTableBody, tableBody);
 
   // pull in new data
-  myLibrary.forEach(item => {
+  myLibrary.books.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
@@ -222,16 +221,16 @@ function tableRefresh() {
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
-        index = myLibrary.indexOf(item);
+        index = myLibrary.books.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          index = myLibrary.indexOf(item);
-          if (value == "No" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "Yes";
+          index = myLibrary.books.indexOf(item);
+          if (value === false && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = true;
             tableRefresh();
           }
-          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "No";
+          else if (value === true && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = false;
             tableRefresh();
           }
         });
@@ -249,8 +248,13 @@ function tableRefresh() {
 
 
 // set initial books for table
-addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
-addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
+
+
+myLibrary = new Library();
+
+newBook = new Book("The Devils", "Joe Abercrombie", 576, true);
+newBook2 = new Book("The Way of Kings", "Brandon Sanderson", 1008, true);
+myLibrary.addBook(newBook);
+myLibrary.addBook(newBook2);
 createTable();
 
-*/
