@@ -1,9 +1,8 @@
-// initial library values
-// const myLibrary = [];
+// Define Library and Book classes
 
 class Library {
   constructor() {
-  this.books = [];
+    this.books = [];
   }
 
   addBook(book) {
@@ -21,53 +20,31 @@ class Library {
 }
 
 class Book {
-  constructor(title, author, pages, read=false) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = crypto.randomUUID();}
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = crypto.randomUUID();}
 
   updateReadStatus() {
-  if (this.read === false) {
-    this.read = true;
-  }
-  else {
-    this.read = false
-  }
-};
-}
-
-/*
-// object constructor 
-function Book(title, author, pages, read) {
-  if (!new.target) {
-    throw Error("You must use the 'new' operator to call the constructor");
-  }
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = crypto.randomUUID();
-}
-
-Book.prototype.updateReadStatus = function () {
-  if (this.read == "on" || this.read == "yes" || this.read == "Yes") {
-    this.read = "Yes";
-  }
-  else {
-    this.read = "No";
-  }
-};
-
-
-function addBookToLibrary(title, author, pages, read) {
-  const book = new Book(title, author, pages, read);
-  book.updateReadStatus();
-  myLibrary.push(book);
+    if (this.read == "on" || this.read == "yes" || this.read == "Yes") {
+      this.read = "Yes";
+    }
+    else {
+      this.read = "No";
+    }
+  };
 }
 
 // book form functions
+
+function addFormBookToLibrary(title, author, pages, read) {
+  const book = new Book(title, author, pages, read);
+  book.updateReadStatus();
+  myLibrary.addBook(book);
+} 
+
 const showButton = document.getElementById("showDialog");
 const bookForm = document.getElementById("bookForm");
 const outputBox = document.querySelector("output");
@@ -83,7 +60,7 @@ submitBtn.addEventListener("click", (event) => {
   const author = document.getElementById('author').value;
   const pages = document.getElementById('pages').value;
   const read = document.getElementById('read').value;
-  addBookToLibrary(title, author, pages, read);
+  addFormBookToLibrary(title, author, pages, read);
   formClear();
   tableRefresh();
   bookForm.close();
@@ -95,11 +72,8 @@ function formClear() {
   document.getElementById('pages').value = "";
   document.getElementById('read').checked = false;
 };
-*/
-
 
 // table creation functions
-
 // function to check for ID
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
@@ -142,12 +116,12 @@ function createTableBody(table) {
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
           index = myLibrary.books.indexOf(item);
-          if (value === false && index == myLibrary.books.indexOf(item)) {
-            myLibrary[index].read = true;
+          if (value == "No" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "Yes";
             tableRefresh();
           }
-          else if (value === true && index == myLibrary.books.indexOf(item)) {
-            myLibrary.books[index].read = false;
+          else if (value == "Yes" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "No";
             tableRefresh();
           }
         });
@@ -182,7 +156,6 @@ function createTable() {
   // create table
   const table = document.createElement('table');
   table.id = "bookTable"
-  //table.setAttribute('border', '1');
 
   // create header row
   createHeaderRow(table);
@@ -225,12 +198,12 @@ function tableRefresh() {
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
           index = myLibrary.books.indexOf(item);
-          if (value === false && index == myLibrary.books.indexOf(item)) {
-            myLibrary.books[index].read = true;
+          if (value == "No" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "Yes";
             tableRefresh();
           }
-          else if (value === true && index == myLibrary.books.indexOf(item)) {
-            myLibrary.books[index].read = false;
+          else if (value == "Yes" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "No";
             tableRefresh();
           }
         });
@@ -246,14 +219,12 @@ function tableRefresh() {
   });
 }
 
-
 // set initial books for table
-
 
 myLibrary = new Library();
 
-newBook = new Book("The Devils", "Joe Abercrombie", 576, true);
-newBook2 = new Book("The Way of Kings", "Brandon Sanderson", 1008, true);
+newBook = new Book("The Devils", "Joe Abercrombie", 576, "Yes");
+newBook2 = new Book("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
 myLibrary.addBook(newBook);
 myLibrary.addBook(newBook2);
 createTable();
