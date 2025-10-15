@@ -37,8 +37,7 @@ class Book {
   };
 }
 
-// book form functions
-
+// form functions
 function addFormBookToLibrary(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   book.updateReadStatus();
@@ -74,7 +73,6 @@ function formClear() {
 };
 
 // table creation functions
-// function to check for ID
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
@@ -94,14 +92,12 @@ function createHeaderRow(table) {
     }
   });
   table.appendChild(headerRow);
-
 };
 
 function createTableBody(table) {
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
-  // create table data
   myLibrary.books.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
@@ -153,18 +149,14 @@ function removeButton(button, value) {
 };
 
 function createTable() {
-  // create table
   const table = document.createElement('table');
   table.id = "bookTable"
 
-  // create header row
   createHeaderRow(table);
 
-  // create table body
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
-  // create table data
   createTableBody(table);
 
   const container = document.getElementById('container')
