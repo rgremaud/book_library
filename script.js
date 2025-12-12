@@ -41,14 +41,27 @@ showButton.addEventListener("click", () => {
 
 submitBtn.addEventListener("click", (event) => {
   event.preventDefault();
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  const pages = document.getElementById('pages').value;
-  const read = document.getElementById('read').value;
-  addBookToLibrary(title, author, pages, read);
-  formClear();
-  tableRefresh();
-  bookForm.close();
+
+  if (title.value === "") {
+    alert("The book title must be filled!")
+    return false;
+  } else if (author.value === "") {
+    alert("The author name must be filled!")
+    return false;
+  } else if (pages.value <= 0) {
+    alert("Please enter a valid book length")
+  }
+  else {
+    const title = document.getElementById('title').value;
+    const author = document.getElementById('author').value;
+    const pages = document.getElementById('pages').value;
+    const read = document.getElementById('read').value;
+    addBookToLibrary(title, author, pages, read);
+    formClear();
+    tableRefresh();
+    bookForm.close();
+  }
+
 });
 
 function formClear() {
@@ -209,5 +222,6 @@ function tableRefresh() {
 // set initial books for table
 addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
 addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
+// formValidation();
 createTable();
 
