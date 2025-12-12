@@ -1,35 +1,50 @@
-// initial library value
-const myLibrary = [];
+// Define Library and Book classes
 
-// object constructor 
-function Book(title, author, pages, read) {
-  if (!new.target) {
-    throw Error("You must use the 'new' operator to call the constructor");
+class Library {
+  constructor() {
+    this.books = [];
   }
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-  this.id = crypto.randomUUID();
+
+  addBook(book) {
+    this.books.push(book)
+  }
+
+  printLibrary() {
+    console.log(this.books);
+  }
+
+  createBook(title, author, pages, read) {
+    book = new Book(title, author, pages, read)
+  }
+  // removeBook
 }
 
-Book.prototype.updateReadStatus = function () {
-  if (this.read == "on" || this.read == "yes" || this.read == "Yes") {
-    this.read = "Yes";
+class Book {
+  constructor(title, author, pages, read) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.id = crypto.randomUUID();
   }
-  else {
-    this.read = "No";
-  }
-};
 
+  updateReadStatus() {
+    if (this.read == "on" || this.read == "yes" || this.read == "Yes") {
+      this.read = "Yes";
+    }
+    else {
+      this.read = "No";
+    }
+  };
+}
 
-function addBookToLibrary(title, author, pages, read) {
+// form functions
+function addFormBookToLibrary(title, author, pages, read) {
   const book = new Book(title, author, pages, read);
   book.updateReadStatus();
-  myLibrary.push(book);
+  myLibrary.addBook(book);
 }
 
-// book form functions
 const showButton = document.getElementById("showDialog");
 const bookForm = document.getElementById("bookForm");
 const outputBox = document.querySelector("output");
@@ -72,15 +87,13 @@ function formClear() {
 };
 
 // table creation functions
-
-// function to check for ID
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
 }
 
 function createHeaderRow(table) {
   const headerRow = document.createElement('thead');
-  Object.keys(myLibrary[0]).forEach(key => {
+  Object.keys(myLibrary.books[0]).forEach(key => {
     if (key == "id") {
       const th = document.createElement('th');
       th.appendChild(document.createTextNode("Remove"))
@@ -93,15 +106,13 @@ function createHeaderRow(table) {
     }
   });
   table.appendChild(headerRow);
-
 };
 
 function createTableBody(table) {
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
-  // create table data
-  myLibrary.forEach(item => {
+  myLibrary.books.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
@@ -111,16 +122,16 @@ function createTableBody(table) {
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
-        index = myLibrary.indexOf(item);
+        index = myLibrary.books.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          index = myLibrary.indexOf(item);
-          if (value == "No" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "Yes";
+          index = myLibrary.books.indexOf(item);
+          if (value == "No" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "Yes";
             tableRefresh();
           }
-          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "No";
+          else if (value == "Yes" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "No";
             tableRefresh();
           }
         });
@@ -141,10 +152,10 @@ function removeButton(button, value) {
   button.appendChild(document.createTextNode('Remove'));
   button.dataset.bookId = value;
   button.addEventListener("click", () => {
-    myLibrary.forEach(item => {
+    myLibrary.books.forEach(item => {
       if (item.id == button.dataset.bookId) {
-        index = myLibrary.indexOf(item);
-        myLibrary.splice(index, 1);
+        index = myLibrary.books.indexOf(item);
+        myLibrary.books.splice(index, 1);
         tableRefresh();
       }
     })
@@ -152,19 +163,14 @@ function removeButton(button, value) {
 };
 
 function createTable() {
-  // create table
   const table = document.createElement('table');
   table.id = "bookTable"
-  //table.setAttribute('border', '1');
 
-  // create header row
   createHeaderRow(table);
 
-  // create table body
   const tableBody = document.createElement('tbody');
   tableBody.id = "tableBody";
 
-  // create table data
   createTableBody(table);
 
   const container = document.getElementById('container')
@@ -184,7 +190,7 @@ function tableRefresh() {
   tableBody.parentNode.replaceChild(newTableBody, tableBody);
 
   // pull in new data
-  myLibrary.forEach(item => {
+  myLibrary.books.forEach(item => {
     const row = document.createElement('tr');
     Object.values(item).forEach(value => {
       if (getKeyByValue(item, value) == 'id') {
@@ -194,16 +200,16 @@ function tableRefresh() {
       }
       else if (getKeyByValue(item, value) == 'read') {
         const button = document.createElement('button');
-        index = myLibrary.indexOf(item);
+        index = myLibrary.books.indexOf(item);
         button.appendChild(document.createTextNode(`${value}`));
         button.addEventListener("click", () => {
-          index = myLibrary.indexOf(item);
-          if (value == "No" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "Yes";
+          index = myLibrary.books.indexOf(item);
+          if (value == "No" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "Yes";
             tableRefresh();
           }
-          else if (value == "Yes" && index == myLibrary.indexOf(item)) {
-            myLibrary[index].read = "No";
+          else if (value == "Yes" && index == myLibrary.books.indexOf(item)) {
+            myLibrary.books[index].read = "No";
             tableRefresh();
           }
         });
@@ -222,6 +228,5 @@ function tableRefresh() {
 // set initial books for table
 addBookToLibrary("The Devils", "Joe Abercrombie", 576, "No");
 addBookToLibrary("The Way of Kings", "Brandon Sanderson", 1008, "Yes");
-// formValidation();
 createTable();
 
